@@ -1,4 +1,4 @@
-name: Deploy Lambda2
+name: Deploy Lambda3
 
 on:
   push:
