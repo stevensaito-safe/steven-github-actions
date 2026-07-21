@@ -61,4 +61,4 @@ jobs:
         run: |
             curl -X POST -H 'Content-type: application/json' \
               --data '{"text":"Hello, World!"}' \
-              "${{ secrets.SLACK_URL_SECRET }}"
+              "${{ vars.SLACK_URL }}"
