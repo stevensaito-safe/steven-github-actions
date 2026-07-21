@@ -59,13 +59,4 @@ jobs:
 
       - name: Notify Slack via Lambda
         run: |
-          curl -X POST "https://y3se0t7iei.execute-api.us-west-2.amazonaws.com/Prod/tell-slack" \
-            -H "Content-Type: application/json" \
-            -H "x-api-key: PVy2VN8eEm3cGX52DmDuF1lTaZoWxcTQAY21TePc" \
-            -d '{
-              "body": {
-                "method": "slack",
-                "staff": "steven.saito@safe.com",
-                "messages": "Deploy triggered for '"${{ github.repository }}"' by '"${{ github.actor }}"' — commit '"${{ github.sha }}"'"
-              }
-            }'
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello, World!"}' https://hooks.slack.com/services/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ok%
