@@ -1,4 +1,4 @@
-# bw-create-individual-collection
+# bw-create-individual-collections
 Create a-staff-individual collection for new staff
 
 GITHUB action - run the command that creates the lambda?
