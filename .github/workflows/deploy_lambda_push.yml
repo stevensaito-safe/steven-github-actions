@@ -1,0 +1,44 @@
+name: Deploy Lambda
+
+on:
+  push:
+    branches: [main]   # runs after PR is merged into main
+
+permissions:
+  id-token: write   # required for OIDC
+  contents: read  # Required to check out the repository
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'   # match whatever runtime your Lambda uses
+
+      - name: Install dependencies into package folder
+        run: |
+          pip install -r requirements.txt -t package/
+
+      - name: Copy source code into package
+        run: |
+          cp -r *.py package/   # adjust if your code lives in a subfolder, e.g. src/
+
+      - name: Zip package
+        run: |
+          cd package
+          zip -r ../function.zip .
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::588146318465:role/TechOps-github-actions-lambda-deploy
+          aws-region: us-west-2
+
+      - name: Deploy to Lambda
+        uses: aws-actions/aws-lambda-deploy@v1
+        with:
+          function-name: TechOps-bw-create-individual-collection-Index-ScTilHTb5mBn
+          zip-file: function.zip
