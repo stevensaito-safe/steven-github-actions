@@ -1,0 +1,16 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Outputs: {}
+Resources:
+  Index:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: python3.12
+      Handler: app.index
+      CodeUri: s3://config-safe/cloudformation/OPS/sam-deployments/TechOps-bw-create-individual-collection/e8f88d47577d2a14c4cefe98c8a03e53
+      Tags:
+        aws-chalice: version=1.31.0:stage=dev:app=techops-onboard-bitwarden
+      Tracing: PassThrough
+      Timeout: 60
+      MemorySize: 128
+      Role: arn:aws:iam::588146318465:role/TechOps-lambda-role
