@@ -59,4 +59,6 @@ jobs:
 
       - name: Notify Slack via Lambda
         run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello, World!"}' https://hooks.slack.com/services/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ok%
+            curl -X POST -H 'Content-type: application/json' \
+              --data '{"text":"Hello, World!"}' \
+              "${{ secrets.SLACK_URL }}"
