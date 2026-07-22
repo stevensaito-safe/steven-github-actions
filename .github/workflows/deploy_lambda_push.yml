@@ -45,7 +45,7 @@ jobs:
   #         zip-file: function.zip
 
   AssumeRoleAndCallIdentity:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       # - name: Git clone the repository
       #   uses: actions/checkout@v3
