@@ -45,6 +45,20 @@ jobs:
           fi
           pip install chalice
 
+      - name: Package with Chalice
+        run: chalice package packaged/
 
-      - name: Deploy with Chalice
-        run: chalice deploy --stage ${{ steps.stage.outputs.stage }}
+      - name: Package with CloudFormation (upload assets to S3)
+        run: |
+          aws cloudformation package \
+            --template-file ./packaged/sam.json \
+            --s3-bucket config-safe \
+            --s3-prefix cloudformation/OPS/sam-deployments/techops-onboard-bitwarden \
+            --output-template-file sam-packaged.yaml
+
+      - name: Deploy CloudFormation stack
+        run: |
+          aws cloudformation deploy \
+            --template-file ./sam-packaged.yaml \
+            --stack-name techops-onboard-bitwarden \
+            --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM
