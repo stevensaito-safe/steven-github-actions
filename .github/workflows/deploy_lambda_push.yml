@@ -59,7 +59,7 @@ jobs:
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::588146318465:role/TechOps-Saito #change to reflect your IAM role’s ARN
+          role-to-assume: arn:aws:iam::588146318465:role/TechOps-github-actions-lambda-deploy #change to reflect your IAM role’s ARN
           aws-region: us-west-2
 
       # Hello from AWS: WhoAmI
