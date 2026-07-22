@@ -89,4 +89,4 @@ def index(event, context):
 
 
 
-# index({"user": "jilliam.sagun@safe.com"}, "a")
+# index({"user": "jilliam.sagun@safe.com"}, "taa")
