@@ -5,52 +5,23 @@ import requests
 import shutil
 
 
+def build_bw_command(args):
+    bw_path = os.environ.get("BW_PATH") or 'bw'
 
-def get_bw_path():
-    """
-    Returns the path to the bw binary.
-    On Lambda, uses the bundled binary at /var/task/bw.
-    Locally, uses whatever 'bw' resolves to on PATH.
-    """
-    # if os.environ.get("AWS_LAMBDA_FUNCTION_NAME"):
-    #     # Running inside Lambda
-    #     return "/var/task/bw"
+    if bw_path.endswith(".js"):
+        node = shutil.which("node")
+        if not node:
+            raise FileNotFoundError("node is required to run the Bitwarden CLI JavaScript entrypoint")
+        return [node, bw_path] + args
 
-    # # Running locally / on a regular machine
-    # local_bw = shutil.which("bw")
-    # if local_bw is None:
-    #     raise FileNotFoundError(
-    #         "bw CLI not found on PATH. Install it locally with 'npm install -g @bitwarden/cli' "
-    #         "or ensure it's accessible."
-    #     )
-    # return local_bw
-    explicit = os.environ.get("BW_PATH")
-    if explicit and os.path.exists(explicit):
-        return explicit
+    return [bw_path] + args
 
-    if os.environ.get("AWS_LAMBDA_FUNCTION_NAME"):
-        return "/var/task/bw"
-
-    repo_local_bw = os.path.join(os.getcwd(), "vendor", "bw")
-    if os.path.exists(repo_local_bw):
-        return repo_local_bw
-
-    local_bw = shutil.which("bw")
-    if local_bw:
-        return local_bw
-
-    raise FileNotFoundError(
-        "bw CLI not found. Set BW_PATH, bundle vendor/bw, or install it on PATH."
-    )
-
-
-BW_PATH = get_bw_path()
 
 
 def run_bw(args, env, input_text=None, check=True):
     """Run a bw CLI command and return stdout, stripped."""
     result = subprocess.run(
-        [BW_PATH] + args,
+        build_bw_command(args),
         env=env,
         input=input_text,
         capture_output=True,
@@ -59,6 +30,16 @@ def run_bw(args, env, input_text=None, check=True):
     if check and result.returncode != 0:
         raise RuntimeError(f"bw {' '.join(args)} failed: {result.stderr.strip()}")
     return result.stdout.strip()
+    # result = subprocess.run(
+    #     [BW_PATH] + args,
+    #     env=env,
+    #     input=input_text,
+    #     capture_output=True,
+    #     text=True,
+    # )
+    # if check and result.returncode != 0:
+    #     raise RuntimeError(f"bw {' '.join(args)} failed: {result.stderr.strip()}")
+    # return result.stdout.strip()
 
 
 def get_session(env):
