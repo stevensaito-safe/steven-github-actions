@@ -20,6 +20,14 @@ jobs:
         with:
           python-version: '3.12'   # match whatever runtime your Lambda uses
 
+      # in your GitHub Actions workflow, before `chalice deploy`
+      - name: Download Bitwarden CLI
+        run: |
+          mkdir -p vendor
+          curl -L -o bw.zip https://github.com/bitwarden/clients/releases/download/cli-v<VERSION>/bw-linux-x64-<VERSION>.zip
+          unzip bw.zip -d vendor/
+          chmod +x vendor/bw
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:

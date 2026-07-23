@@ -1,4 +1,4 @@
--r requirements-prod.txt
+-r requirements-PROD.txt
 autopep8==2.0.2
 coverage==7.2.3
 exceptiongroup==1.1.1
