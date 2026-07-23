@@ -24,7 +24,7 @@ jobs:
       - name: Download Bitwarden CLI
         run: |
           mkdir -p vendor
-          curl -L -o bw.zip https://github.com/bitwarden/clients/releases/download/cli-v<VERSION>/bw-linux-x64-<VERSION>.zip
+          curl -L -o bw.zip https://bitwarden.com/download/?app=cli&platform=linux
           unzip bw.zip -d vendor/
           chmod +x vendor/bw
 
