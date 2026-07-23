@@ -5,23 +5,28 @@ import requests
 import shutil
 
 
-def build_bw_command(args):
-    bw_path = os.environ.get("BW_PATH") or 'bw'
+# def build_bw_command(args):
+#     bw_path = os.environ.get("BW_PATH") or 'bw'
 
-    if bw_path.endswith(".js"):
-        node = shutil.which("node")
-        if not node:
-            raise FileNotFoundError("node is required to run the Bitwarden CLI JavaScript entrypoint")
-        return [node, bw_path] + args
+#     if bw_path.endswith(".js"):
+#         node = shutil.which("node")
+#         if not node:
+#             raise FileNotFoundError("node is required to run the Bitwarden CLI JavaScript entrypoint")
+#         return [node, bw_path] + args
 
-    return [bw_path] + args
+#     return [bw_path] + args
 
-
+BW_PATH = "/var/task/bw"
 
 def run_bw(args, env, input_text=None, check=True):
     """Run a bw CLI command and return stdout, stripped."""
+    bw_appdata_dir = "/tmp/bw-config"
+    os.makedirs(bw_appdata_dir, exist_ok=True)
+    env = {**env, "BITWARDENCLI_APPDATA_DIR": bw_appdata_dir}
+
     result = subprocess.run(
-        build_bw_command(args),
+        # build_bw_command(args),
+        [BW_PATH, *args],
         env=env,
         input=input_text,
         capture_output=True,

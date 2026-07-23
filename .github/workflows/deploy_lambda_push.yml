@@ -27,12 +27,20 @@ jobs:
       #     unzip bw.zip -d vendor/
       #     chmod +x vendor/bw
 
-      - name: Install Bitwarden CLI via npm
+      - name: Download Bitwarden CLI
         run: |
           mkdir -p vendor
-          npm install @bitwarden/cli --prefix ./bw-install
-          cp ./bw-install/node_modules/.bin/bw vendor/bw
+          curl -Lo bw.zip "https://vault.bitwarden.com/download/?app=cli&platform=linux"
+          unzip bw.zip -d vendor/
           chmod +x vendor/bw
+          rm bw.zip
+
+      # - name: Install Bitwarden CLI via npm
+      #   run: |
+      #     mkdir -p vendor
+      #     npm install @bitwarden/cli --prefix ./bw-install
+      #     cp ./bw-install/node_modules/.bin/bw vendor/bw
+      #     chmod +x vendor/bw
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -69,6 +77,4 @@ jobs:
 
 
       - name: Deploy with Chalice
-        env:
-          BW_PATH: ${{ github.workspace }}/vendor/bw
         run: chalice deploy --stage ${{ steps.stage.outputs.stage }}
