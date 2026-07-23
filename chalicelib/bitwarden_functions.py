@@ -4,27 +4,48 @@ import subprocess
 import requests
 import shutil
 
+
+
 def get_bw_path():
     """
     Returns the path to the bw binary.
     On Lambda, uses the bundled binary at /var/task/bw.
     Locally, uses whatever 'bw' resolves to on PATH.
     """
+    # if os.environ.get("AWS_LAMBDA_FUNCTION_NAME"):
+    #     # Running inside Lambda
+    #     return "/var/task/bw"
+
+    # # Running locally / on a regular machine
+    # local_bw = shutil.which("bw")
+    # if local_bw is None:
+    #     raise FileNotFoundError(
+    #         "bw CLI not found on PATH. Install it locally with 'npm install -g @bitwarden/cli' "
+    #         "or ensure it's accessible."
+    #     )
+    # return local_bw
+    explicit = os.environ.get("BW_PATH")
+    if explicit and os.path.exists(explicit):
+        return explicit
+
     if os.environ.get("AWS_LAMBDA_FUNCTION_NAME"):
-        # Running inside Lambda
         return "/var/task/bw"
 
-    # Running locally / on a regular machine
+    repo_local_bw = os.path.join(os.getcwd(), "vendor", "bw")
+    if os.path.exists(repo_local_bw):
+        return repo_local_bw
+
     local_bw = shutil.which("bw")
-    if local_bw is None:
-        raise FileNotFoundError(
-            "bw CLI not found on PATH. Install it locally with 'npm install -g @bitwarden/cli' "
-            "or ensure it's accessible."
-        )
-    return local_bw
+    if local_bw:
+        return local_bw
+
+    raise FileNotFoundError(
+        "bw CLI not found. Set BW_PATH, bundle vendor/bw, or install it on PATH."
+    )
 
 
 BW_PATH = get_bw_path()
+
 
 def run_bw(args, env, input_text=None, check=True):
     """Run a bw CLI command and return stdout, stripped."""

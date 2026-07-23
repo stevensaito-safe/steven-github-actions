@@ -69,4 +69,6 @@ jobs:
 
 
       - name: Deploy with Chalice
+        env:
+          BW_PATH: ${{ github.workspace }}/vendor/bw
         run: chalice deploy --stage ${{ steps.stage.outputs.stage }}
