@@ -70,5 +70,7 @@ jobs:
 
       - name: Deploy with Chalice
         env:
-          BW_PATH: ${{ github.workspace }}/vendor/bw
-        run: chalice deploy --stage ${{ steps.stage.outputs.stage }}
+          BW_PATH: ${{ github.workspace }}/bw-install/node_modules/@bitwarden/cli/build/bw.js
+        run: |
+          chmod +x "$BW_PATH"
+          run: chalice deploy --stage ${{ steps.stage.outputs.stage }}
