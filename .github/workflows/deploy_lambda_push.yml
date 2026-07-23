@@ -21,10 +21,17 @@ jobs:
           python-version: '3.12'   # match whatever runtime your Lambda uses
 
       # in your GitHub Actions workflow, before `chalice deploy`
-      - name: Download Bitwarden CLI
+      # - name: Download Bitwarden CLI
+      #   run: |
+      #     mkdir -p vendor
+      #     unzip bw.zip -d vendor/
+      #     chmod +x vendor/bw
+
+      - name: Install Bitwarden CLI via npm
         run: |
           mkdir -p vendor
-          unzip bw.zip -d vendor/
+          npm install @bitwarden/cli --prefix ./bw-install
+          cp ./bw-install/node_modules/.bin/bw vendor/bw
           chmod +x vendor/bw
 
       - name: Configure AWS credentials
@@ -40,6 +47,14 @@ jobs:
             echo "stage=${{ github.event.inputs.stage }}" >> $GITHUB_OUTPUT
           else
             echo "stage=prod" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Prepare requirements.txt for Chalice
+        run: |
+          if [ "${{ steps.stage.outputs.stage }}" = "prod" ]; then
+            cp requirements-PROD.txt requirements.txt
+          else
+            cp requirements-TEST.txt requirements.txt
           fi
 
       - name: Install dependencies
