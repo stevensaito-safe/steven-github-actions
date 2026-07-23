@@ -69,13 +69,13 @@ jobs:
       - name: Inject layer ARN into Chalice config
         run: |
           python - <<EOF
-    import json
-    with open(".chalice/config.json") as f:
-        config = json.load(f)
-    config["stages"]["${{ steps.stage.outputs.stage }}"]["lambda_functions"]["your-function-name"]["layers"] = ["${{ steps.bw_layer.outputs.layer_arn }}"]
-    with open(".chalice/config.json", "w") as f:
-        json.dump(config, f, indent=2)
-    EOF
+          import json
+          with open(".chalice/config.json") as f:
+              config = json.load(f)
+          config["stages"]["${{ steps.stage.outputs.stage }}"]["lambda_functions"]["your-function-name"]["layers"] = ["${{ steps.bw_layer.outputs.layer_arn }}"]
+          with open(".chalice/config.json", "w") as f:
+              json.dump(config, f, indent=2)
+          EOF
 
       - name: Determine stage
         id: stage
