@@ -2,5 +2,14 @@
   "version": "2.0",
   "app_name": "techops-onboard-bitwarden",
   "manage_iam_role":false,
-  "iam_role_arn": "arn:aws:iam::588146318465:role/TechOps-lambda-role"
+  "iam_role_arn": "arn:aws:iam::588146318465:role/TechOps-lambda-role",
+  "stages": {
+    "prod": {
+      "lambda_functions": {
+        "your-function-name": {
+          "layers": ["arn:aws:lambda:us-west-2:588146318465:layer:bitwarden-cli:1"]
+        }
+      }
+    }
+  }
 }

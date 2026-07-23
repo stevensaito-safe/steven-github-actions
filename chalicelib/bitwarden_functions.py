@@ -16,7 +16,7 @@ import shutil
 
 #     return [bw_path] + args
 
-BW_PATH = "/var/task/bw"
+BW_PATH = "/opt/bin/bw"
 
 def run_bw(args, env, input_text=None, check=True):
     """Run a bw CLI command and return stdout, stripped."""

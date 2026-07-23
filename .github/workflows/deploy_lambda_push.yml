@@ -27,13 +27,13 @@ jobs:
       #     unzip bw.zip -d vendor/
       #     chmod +x vendor/bw
 
-      - name: Download Bitwarden CLI
-        run: |
-          mkdir -p vendor
-          curl -Lo bw.zip "https://vault.bitwarden.com/download/?app=cli&platform=linux"
-          unzip bw.zip -d vendor/
-          chmod +x vendor/bw
-          rm bw.zip
+      # - name: Download Bitwarden CLI
+      #   run: |
+      #     mkdir -p vendor
+      #     curl -Lo bw.zip "https://vault.bitwarden.com/download/?app=cli&platform=linux"
+      #     unzip bw.zip -d vendor/
+      #     chmod +x vendor/bw
+      #     rm bw.zip
 
       # - name: Install Bitwarden CLI via npm
       #   run: |
@@ -47,6 +47,35 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::588146318465:role/TechOps-github-actions-lambda-deploy
           aws-region: us-west-2
+
+      - name: Build and publish Bitwarden layer
+        id: bw_layer
+        run: |
+          mkdir -p layer/bin
+          curl -Lo bw.zip "https://vault.bitwarden.com/download/?app=cli&platform=linux"
+          unzip bw.zip -d layer/bin/
+          chmod +x layer/bin/bw
+          cd layer && zip -r ../bw-layer.zip . && cd ..
+
+          LAYER_ARN=$(aws lambda publish-layer-version \
+            --layer-name bitwarden-cli \
+            --zip-file fileb://bw-layer.zip \
+            --compatible-runtimes python3.12 \
+            --compatible-architectures x86_64 \
+            --query 'LayerVersionArn' --output text)
+
+          echo "layer_arn=$LAYER_ARN" >> $GITHUB_OUTPUT
+
+      - name: Inject layer ARN into Chalice config
+        run: |
+          python - <<EOF
+    import json
+    with open(".chalice/config.json") as f:
+        config = json.load(f)
+    config["stages"]["${{ steps.stage.outputs.stage }}"]["lambda_functions"]["your-function-name"]["layers"] = ["${{ steps.bw_layer.outputs.layer_arn }}"]
+    with open(".chalice/config.json", "w") as f:
+        json.dump(config, f, indent=2)
+    EOF
 
       - name: Determine stage
         id: stage
