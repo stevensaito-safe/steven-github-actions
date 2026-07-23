@@ -23,13 +23,9 @@ jobs:
       # in your GitHub Actions workflow, before `chalice deploy`
       - name: Download Bitwarden CLI
         run: |
-          set -euo pipefail
           mkdir -p vendor
-          curl -fL --retry 3 -o bw.zip \
-            https://github.com/bitwarden/clients/releases/latest/download/bw-linux.zip
-          unzip -o bw.zip -d vendor/
+          unzip bw.zip -d vendor/
           chmod +x vendor/bw
-          ./vendor/bw --version
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
