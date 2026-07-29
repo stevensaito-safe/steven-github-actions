@@ -18,9 +18,9 @@ def handler(event, context):
     employee_data = event
     # TEST DATA
     # employee_data = {'action': 'CREATE', 'data': {'name': 'Evelyn Saito', 'active_directory': 'ssaito', 'email': 'jilliam.sagun@safe.com', 'position_title': 'IT Support Engineer II', 'team_name': 'IT Support', 'hours_weekly': 40, 'status': 'Full-Time', 'employee_type': 'Permanent', 'co_op': False, 'payment_type': 'Salaried', 'supervisor_email': 'michael.steele@safe.com', 'org_level_1_code': 'IS0000', 'org_level_2_code': 'IS1000', 'org_level_3_code': 'IS1100', 'team_ukg_code': 'PR1100', 'password': 'Blepharosynechia-Cloddish-Aminobenzene-66'}}
-    # user_email = "jilliam.sagun11@safe.com"
+    user_email = "jilliam.sagun11@safe.com"
 
-    user_email = employee_data['data']['email'].strip().lower()
+    # user_email = employee_data['data']['email'].strip().lower()
 
     env = os.environ.copy()
     env["BITWARDENCLI_APPDATA_DIR"] = "/tmp/bw"

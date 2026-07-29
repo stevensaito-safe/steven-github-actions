@@ -13,8 +13,8 @@ permissions:
 
 env:
   AWS_REGION: us-west-2
-  ECR_REPOSITORY: bitwarden-lambda
-  FUNCTION_NAME: techops-onboard-bitwarden-prod-index
+  ECR_REPOSITORY: bitwarden-onboard-lambda
+  FUNCTION_NAME: techops-onboard-bitwarden-index
   # WORKING_DIR: steven-github-actions
 
 jobs:
