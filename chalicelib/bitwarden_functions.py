@@ -252,7 +252,8 @@ def invite_org_member(env, organization_id, user_email, client_id, client_secret
             timeout=30,
         )
         invite_elapsed = time.time() - invite_start
-        logger.info(f"[invite_org_member] API request completed in {invite_elapsed:.2f}s, status: {response.status_code}")
+        status_code = getattr(response, "status_code", "unknown")
+        logger.info(f"[invite_org_member] API request completed in {invite_elapsed:.2f}s, status: {status_code}")
         response.raise_for_status()
 
         invited_member = response.json()

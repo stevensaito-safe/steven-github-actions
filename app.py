@@ -64,5 +64,10 @@ def handler(event, context):
         logging.error(str(error))
         return {'status_code': 400, 'message': str(error), 'application': 'Bitwarden Collection'}
 
+
+def index(event, context):
+    """Backward-compatible entrypoint expected by tests and older integrations."""
+    return handler(event, context)
+
 # test command
 # handler({"user": "jilliam.sagun@safe.com"}, "taa")
