@@ -69,5 +69,5 @@ def index(event, context):
     """Backward-compatible entrypoint expected by tests and older integrations."""
     return handler(event, context)
 
-# test command
+# Test command
 # handler({"user": "jilliam.sagun@safe.com"}, "tasa")
