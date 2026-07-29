@@ -220,7 +220,6 @@ vendor/bw
 
 # docker ignore
 .git
-.github
 .chalice
 packaged
 tests
