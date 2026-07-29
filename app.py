@@ -70,4 +70,4 @@ def index(event, context):
     return handler(event, context)
 
 # test command
-# handler({"user": "jilliam.sagun@safe.com"}, "taa")
+# handler({"user": "jilliam.sagun@safe.com"}, "tasa")
