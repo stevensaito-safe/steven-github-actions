@@ -9,9 +9,6 @@ RUN curl -Lo /tmp/bw.zip "https://vault.bitwarden.com/download/?app=cli&platform
     && chmod +x /usr/local/bin/bw \
     && rm /tmp/bw.zip
 
-# Removing
-#ENV PATH="/opt/bin:${PATH}"
-
 # Copy app code and Chalice lib
 COPY app.py ${LAMBDA_TASK_ROOT}
 COPY chalicelib ${LAMBDA_TASK_ROOT}/chalicelib

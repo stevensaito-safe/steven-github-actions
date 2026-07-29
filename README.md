@@ -74,6 +74,8 @@ aws lambda create-function \
   --memory-size 512
 ```
 
+- If necessary, attach the lambda to a VPC
+
 # Troubleshooting
 
 

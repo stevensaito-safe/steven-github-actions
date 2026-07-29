@@ -18,9 +18,9 @@ def handler(event, context):
     employee_data = event
     # TEST DATA
     # employee_data = {'action': 'CREATE', 'data': {'name': 'Evelyn Saito', 'active_directory': 'ssaito', 'email': 'jilliam.sagun@safe.com', 'position_title': 'IT Support Engineer II', 'team_name': 'IT Support', 'hours_weekly': 40, 'status': 'Full-Time', 'employee_type': 'Permanent', 'co_op': False, 'payment_type': 'Salaried', 'supervisor_email': 'michael.steele@safe.com', 'org_level_1_code': 'IS0000', 'org_level_2_code': 'IS1000', 'org_level_3_code': 'IS1100', 'team_ukg_code': 'PR1100', 'password': 'Blepharosynechia-Cloddish-Aminobenzene-66'}}
-    user_email = "jilliam.sagun11@safe.com"
+    # user_email = "jilliam.sagun11@safe.com"
 
-    # user_email = employee_data['data']['email'].strip().lower()
+    user_email = employee_data['data']['email'].strip().lower()
 
     env = os.environ.copy()
     env["BITWARDENCLI_APPDATA_DIR"] = "/tmp/bw"
@@ -59,7 +59,7 @@ def handler(event, context):
         )
         logging.debug(json.dumps(collection, indent=2))
         logging.info("Successfully created collection and granted access to user")
-        return {'status_code': 200, 'message': 'NO ACTION', 'application': 'Bitwarden Collection'}
+        return {'status_code': 200, 'message': 'SUCCESS', 'application': 'Bitwarden Collection'}
     except Exception as error:
         logging.error(str(error))
         return {'status_code': 400, 'message': str(error), 'application': 'Bitwarden Collection'}
