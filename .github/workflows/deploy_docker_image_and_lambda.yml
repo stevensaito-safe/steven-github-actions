@@ -4,8 +4,8 @@ on:
   # pull_request:
   push:
     branches: [main]
-    paths:
-      - 'steven-github-actions/**'
+    # paths:
+      # - 'steven-github-actions/**'
 
 permissions:
   id-token: write   # required for OIDC
