@@ -217,3 +217,26 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 vendor/bw
+
+# docker ignore
+.git
+.github
+.chalice
+packaged
+tests
+venv
+.venv
+cloudcafe-vm-templates
+IT-APIs
+IT-Automations
+layer
+steven-github-actions
+steven-test-code
+bw-layer.zip
+requirements-TEST.txt
+README.md
+README2.md
+README copy.md
+.gitignore
+.gitignore copy
+sam-packaged.yaml
