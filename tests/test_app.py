@@ -58,14 +58,14 @@ def test_index_invites_then_creates_and_grants(monkeypatch):
 
     assert response == {
         "status_code": 200,
-        "message": "NO ACTION",
+        "message": "SUCCESS",
         "application": "Bitwarden Collection",
     }
     assert calls[0][0] == "get_session"
     assert calls[1] == (
         "invite",
         app_module.ORGANIZATION_ID,
-        "jilliam.sagun11@safe.com",
+        "person@safe.com",
         "org-client-id",
         "org-client-secret",
         "session-token",
@@ -73,14 +73,14 @@ def test_index_invites_then_creates_and_grants(monkeypatch):
     assert calls[2] == (
         "create",
         app_module.ORGANIZATION_ID,
-        "A-Staff-Individual/jilliam.sagun11",
+        "A-Staff-Individual/person",
         "session-token",
     )
     assert calls[3] == (
         "grant",
         app_module.ORGANIZATION_ID,
         "collection-123",
-        "jilliam.sagun11@safe.com",
+        "person@safe.com",
         invited_member,
         "session-token",
     )
