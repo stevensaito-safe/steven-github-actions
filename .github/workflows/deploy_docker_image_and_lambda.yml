@@ -1,8 +1,8 @@
 name: Deploy Bitwarden Onboarding Lambda
 
 on:
-  pull_request:
-    branches: [main]
+  # pull_request:
+  #   branches: [main]
     # paths:
     #   - 'stepfunctions-schedule-onboard-apps/bitwarden/**'
   push:
