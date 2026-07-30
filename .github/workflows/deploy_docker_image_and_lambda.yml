@@ -1,7 +1,10 @@
 name: Deploy Bitwarden Onboarding Lambda
 
 on:
-  # pull_request:
+  pull_request:
+    branches: [main]
+    # paths:
+    #   - 'stepfunctions-schedule-onboard-apps/bitwarden/**'
   push:
     branches: [main]
     # paths:
@@ -15,7 +18,7 @@ env:
   AWS_REGION: us-west-2
   ECR_REPOSITORY: techops-bitwarden-onboard-lambda
   FUNCTION_NAME: techops-onboard-bitwarden-index
-  # WORKING_DIR: stepfunctions-schedule-onboard-apps/bitwarden
+  WORKING_DIR: stepfunctions-schedule-onboard-apps/bitwarden
 
 jobs:
   test:
@@ -41,6 +44,7 @@ jobs:
 
   deploy:
     needs: test
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
